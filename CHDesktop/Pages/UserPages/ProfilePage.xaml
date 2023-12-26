@@ -1,0 +1,58 @@
+﻿<Page x:Class="CHDesktop.Pages.UserPages.ProfilePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:PersonalElements="clr-namespace:CHDesktop.PersonalElements"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="1200"
+      Title="EditProfilePage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="480" />
+            <ColumnDefinition Width="310" />
+            <ColumnDefinition Width="310" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Bottom" FontSize="20" Content="E-Mail" Foreground="White"/>
+        <Label Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center"  VerticalAlignment="Bottom" FontSize="20" Content="Телефон" Foreground="White"/>
+        <Label Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20" Content ="Имя" Foreground="White"/>
+        <Label Grid.Row="3" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20" Content = "Фамилия" Foreground="White"/>
+
+        <PersonalElements:BannerTextboxControl x:Name="FirstBTC" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" Width="260"/>
+        <PersonalElements:BannerTextboxControl x:Name="LastNameBTC" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Top" Width="260"/>
+        <PersonalElements:BannerTextboxControl x:Name="EMailBTC" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="260"/>
+        <PersonalElements:BannerTextboxControl x:Name="PhoneBTC" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Top" Width="260" PreviewTextInput="PhoneBTC_PreviewTextInput"/>
+
+        <Button x:Name="ChangeButton" Content="Изменить" Grid.Column="3" Grid.Row="7" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="1" Click="ChangeB_Click"/>
+        <Button x:Name="ChangePassButton" Content="Изменить пароль" Grid.Column="3" Grid.Row="8" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ChangePasswordB_Click"/>
+        <Button x:Name="ListReviewsButton" Content="Рекламации" Grid.Column="2" Grid.Row="8" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ListReviewsB_Click"/>
+
+        <Button x:Name="AddReviewButton" Content="Добавить рекламацию" Grid.Column="2" Grid.Row="7" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="1" Click="AddReviewB_Click"/>
+        <Button x:Name="ListReportsButton" Content="Отчёты" Grid.Column="2" Grid.Row="7" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="1" Click="ListReportsB_Click"/>
+
+        <Button x:Name="DeleteButton" Content="Удалить аккаунт" Grid.Column="3" Grid.Row="10" Style="{StaticResource RemoveButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Click="DeleteUserB_Click" Foreground="Black" FontSize="16" FontWeight="Bold"/>
+
+        <PersonalElements:RoundControl x:Name="PersonalIconRC" Grid.Column="1" ImageEnterButton ="/Assets/Backgrounds/Gray.png" ImageLeaveButton ="/Assets/Backgrounds/White.png" BorderThickness="0" Grid.Row="3" Width="300" Height="300" Grid.RowSpan="6" HorizontalAlignment="Center" Margin="0,0,10,0" LEImageOpacity="0.2" FontWeight="Bold" FontSize="30" Click="ChooseNewProfileIcon_Click"/>
+    </Grid>
+</Page>
