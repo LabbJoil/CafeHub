@@ -25,11 +25,11 @@ public class UserHelper(ContextDB contextDB)
         return user;
     }
 
-    public async Task<User> SetUser(User user)
+    public async Task<User> SetUser(User setUser)
     {
-        if (Database.Users.FirstOrDefault(user => user.Email == user.Email) != null)
-            throw new ExceptionHelper(new LoggingHelper(TypeMessage.Problem, DangerLevel.Wanted, $"User with Login ({user.Email}) already exists"));
-        User userModel = new(user);
+        if (Database.Users.FirstOrDefault(user => user.Email == setUser.Email) != null)
+            throw new ExceptionHelper(new LoggingHelper(TypeMessage.Problem, DangerLevel.Wanted, $"User with Login ({setUser.Email}) already exists"));
+        User userModel = new(setUser);
         Database.Users.Add(userModel);
         await Database.SaveChangesAsync();
         userModel.Password = "";

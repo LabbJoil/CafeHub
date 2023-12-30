@@ -1,4 +1,5 @@
 ﻿
+using CHDesktop.Models.Enums;
 using CHDesktop.Models.ReportProcessing;
 using CHDesktop.Services.DocumentGenerators;
 using CHDesktop.Services.Helpers;
@@ -8,11 +9,14 @@ using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using LiveCharts.Wpf.Charts.Base;
 using Microsoft.Win32;
+using NADesktop.Services.DocumentGenerators;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static iText.Svg.SvgConstants;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CHDesktop.Pages.Data;
 
@@ -38,48 +42,11 @@ public partial class ResultAnalysis : Page
         AddParams();
     }
 
-    private void CreateFile_Click(object sender, RoutedEventArgs e)
-    {
-        string directory = DirectoryBTC.BannerTextBox.Text;
-        string fileName = FileNameBTC.BannerTextBox.Text;
-        string filePath = $"{directory}\\{fileName}";
-        if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
-        {
-            MessageBox.Show("Такой директории не существует");
-            return;
-        }
-        if (string.IsNullOrEmpty(fileName))
-        {
-            MessageBox.Show("Введите название файла");
-            return;
-        }
-        try
-        {
-            var chartsName = new string[]
-            {
-                CreatePNGChart(TonalityChart, 90, 600, 10, 0),
-                CreatePNGChart(PartsSpeechChart, 0, 980, 70, 0),
-            };
-
-            if ((bool)CheckTB.IsChecked!)
-            {
-                DocxGenerator docs = new(filePath);
-                docs.CreateWordDocument(chartsName, Report!.MainInfo, Report!.AggregateCommonWords);
-            }
-            else
-            {
-                PdfGenerator pdf = new(filePath);
-                pdf.CreatePDF(chartsName, Report!.MainInfo, Report!.AggregateCommonWords);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show(ex.Message);
-        }
-    }
-
     public void AddParams()
     {
+        QuantityTB.Text = Report!.MainInfo.CountMessages.ToString();
+        DateTB.Text = Report!.MainInfo.CreateDate.ToString();
+
         TonalityChart.Series =
         [
             new PieSeries
@@ -98,6 +65,70 @@ public partial class ResultAnalysis : Page
             {
                 Title = "Median",
                 Values = new ChartValues<float> { Report!.AverageTonality?.Median ?? 0f },
+                DataLabels = true
+            }
+        ];
+
+        Report!.AggregateСategoryComplaint.TryGetValue(СategoryComplaint.Food, out int foodValue);
+        Report!.AggregateСategoryComplaint.TryGetValue(СategoryComplaint.Food, out int SituationValue);
+        Report!.AggregateСategoryComplaint.TryGetValue(СategoryComplaint.Food, out int StaffValue);
+        CategoryChart.Series =
+        [
+            new PieSeries
+            {
+                Title = "Еда",
+                Values = new ChartValues<int> { foodValue },
+                DataLabels = true
+            },
+            new PieSeries
+            {
+                Title = "Обстановка",
+                Values = new ChartValues<int> { SituationValue },
+                DataLabels = true
+            },
+            new PieSeries
+            {
+                Title = "Персонал",
+                Values = new ChartValues<int> { StaffValue },
+                DataLabels = true
+            }
+        ];
+
+        Report!.AggregateLocationCafe.TryGetValue(LocationCafe.KuznechnyLane3, out int KuznechnyLane3Value);
+        Report!.AggregateLocationCafe.TryGetValue(LocationCafe.NovoroshchinskayaStreet4, out int NovoroshchinskayaStreet4Value);
+        Report!.AggregateLocationCafe.TryGetValue(LocationCafe.FedorAbramovStreet16k1, out int FedorAbramovStreet16k1Value);
+        Report!.AggregateLocationCafe.TryGetValue(LocationCafe.KonstantinovskyProspekt23, out int KonstantinovskyProspekt23Value);
+        Report!.AggregateLocationCafe.TryGetValue(LocationCafe.KirpichnyLane8, out int KirpichnyLane8Value);
+        LocationChart.Series =
+        [
+            new PieSeries
+            {
+                Title = "Кузнечный переулок, 3",
+                Values = new ChartValues<int> { KuznechnyLane3Value },
+                DataLabels = true
+            },
+            new PieSeries
+            {
+                Title = "Новорощинская улица, 4",
+                Values = new ChartValues<int> { NovoroshchinskayaStreet4Value },
+                DataLabels = true
+            },
+            new PieSeries
+            {
+                Title = "Улица Федора Абрамова, 16к1",
+                Values = new ChartValues<int> { FedorAbramovStreet16k1Value },
+                DataLabels = true
+            },
+            new PieSeries
+            {
+                Title = "Константиновский проспект, 23",
+                Values = new ChartValues<int> { KonstantinovskyProspekt23Value },
+                DataLabels = true
+            },
+            new PieSeries
+            {
+                Title = "Кирпичный переулок, 8",
+                Values = new ChartValues<int> { KirpichnyLane8Value },
                 DataLabels = true
             }
         ];
@@ -124,28 +155,59 @@ public partial class ResultAnalysis : Page
             }
         ];
 
-        //DialogTB.Text = Report.MainInfo.Dialog;
-        //CountMessagesTB.Text = Report.MainInfo.CountMessages.ToString();
-        //LoginTB.Text = Report.MainInfo.Login;
-        //DateTB.Text = Report.MainInfo.CreateDate.ToString();
+        List<(TextBlock, TextBlock)> tableWord = [
+            (FirstWordTB, FirstValueTB),
+            (SecondWordTB, SecondValueTB),
+            (ThirdWordTB, ThirdValueTB),
+            (FourthWordTB, FourthValueTB),
+            (FifthWordTB, FifthValueTB),
+        ];
+        for (int indexWord = 0; indexWord < Report?.AggregateCommonWords.Count; indexWord++)
+        {
+            tableWord[indexWord].Item1.Text = Report?.AggregateCommonWords[indexWord].Word;
+            tableWord[indexWord].Item2.Text = Report?.AggregateCommonWords[indexWord].NumberRepetitions.ToString();
+        }
+    }
 
-        //List<(TextBlock, TextBlock)> tableWord = [
-        //    (FirstWordTB, FirstValueTB),
-        //    (SecondWordTB, SecondValueTB),
-        //    (ThirdWordTB, ThirdValueTB),
-        //    (FourthWordTB, FourthValueTB),
-        //    (FifthWordTB, FifthValueTB),
-        // ];
-        //for (int indexWord = 0; indexWord < Report?.AggregateCommonWords.Count; indexWord++)
-        //{
-        //    tableWord[indexWord].Item1.Text = Report?.AggregateCommonWords[indexWord].Word;
-        //    tableWord[indexWord].Item2.Text = Report?.AggregateCommonWords[indexWord].NumberRepetitions.ToString();
-        //}
+    private void CreateFile_Click(object sender, RoutedEventArgs e)
+    {
+        string directory = DirectoryBTC.BannerTextBox.Text;
+        string fileName = FileNameBTC.BannerTextBox.Text;
+        string filePath = $"{directory}\\{fileName}";
+        if (string.IsNullOrEmpty(directory) || !Directory.Exists(directory))
+        {
+            MessageBox.Show("Такой директории не существует");
+            return;
+        }
+        if (string.IsNullOrEmpty(fileName))
+        {
+            MessageBox.Show("Введите название файла");
+            return;
+        }
+        var chartsPNGPaths = new string[]
+            {
+                CreatePNGChart(TonalityChart, 120, 215, 10, 10),
+                CreatePNGChart(LocationChart, 120, 590, 10, 0),
+                CreatePNGChart(CategoryChart, 120, 980, 10, 0),
+                CreatePNGChart(PartsSpeechChart, 60, 1350, 30, 10)
+            };
+        
+        if ((bool)CheckTB.IsChecked!)
+        {
+            DocxGenerator docs = new(filePath);
+            docs.CreateWordDocument(chartsPNGPaths, Report!.MainInfo, Report!.AggregateCommonWords);
+        }
+        else
+        {
+            PdfGenerator pdf = new(filePath);
+            pdf.CreatePDF(chartsPNGPaths, Report!.MainInfo, Report!.AggregateCommonWords);
+        }
+        DeletePNGCharts(chartsPNGPaths);
     }
 
     private static string CreatePNGChart(Chart chart, int x, int y, int addWidth, int addHeight)
     {
-        string currentDirectory = Directory.GetCurrentDirectory();
+        string fileName = $"{chart.Name}.png";
         RenderTargetBitmap renderTarget = new(
           (int)chart.ActualWidth + addWidth + x,
           (int)chart.ActualHeight + addHeight + y,
@@ -164,10 +226,16 @@ public partial class ResultAnalysis : Page
         PngBitmapEncoder pngEncoder = new();
         pngEncoder.Frames.Add(BitmapFrame.Create(croppedBitmap));
 
-        using Stream stream = File.Create($"{chart.Name}.png");
+        using Stream stream = File.Create(fileName);
         pngEncoder.Save(stream);
         stream.Close();
-        return $"{currentDirectory}\\{chart.Name}";
+        return $"{Directory.GetCurrentDirectory()}\\{fileName}";
+    }
+
+    private static void DeletePNGCharts(string[] chartsPNGPaths)
+    {
+        foreach (var chartPath in chartsPNGPaths)
+            File.Delete(chartPath);
     }
 
     private void OpenDirectory_Click(object sender, RoutedEventArgs e)

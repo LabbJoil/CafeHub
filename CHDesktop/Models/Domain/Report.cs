@@ -7,7 +7,6 @@ public class Report
 {
     public int Id { get; set; }
     public string? Name { get; set; }
-    public LocationCafe Location { get; set; }
     public int CountMessages { get; set; }
     public DateTime? CreateDate { get; set; }
 }

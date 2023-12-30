@@ -8,15 +8,15 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
       xmlns:personalElement="clr-namespace:CHDesktop.PersonalElements"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1200"
-      Title="ResultAnalysis">
+      d:DesignHeight="700" d:DesignWidth="1200"
+      Title="ResultAnalysis" Loaded="ResultAnalysis_Loaded">
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
+
         <Grid Margin="5" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="70" />
@@ -26,42 +26,38 @@
                 <ColumnDefinition Width="60" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="140"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Button x:Name="BackButton" Style="{StaticResource BackButton}" Tag="{Binding}" HorizontalAlignment="Left" Grid.Row="0" Click="BackPage_Click" Grid.Column="0" VerticalAlignment="Top" Margin="45,0,2,2" Grid.ColumnSpan="2">
+            <Button Style="{StaticResource BackButton}" Tag="{Binding}" HorizontalAlignment="Right" VerticalAlignment="Top" Click="BackPage_Click" Margin="0">
                 <Icon:PackIconMaterial Kind="ArrowLeftBold" Style="{StaticResource ButtonIcon}"/>
             </Button>
-            
-            <TextBlock Text="В каком формате сформировать отчет: " FontFamily="Tahoma" FontSize="16" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Grid.ColumnSpan="5"/>
-            <TextBlock Text="PDF" FontFamily="Tahoma" FontSize="16" Grid.Row="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" Grid.ColumnSpan="2"/>
-            <TextBlock Text="docx" FontFamily="Tahoma" FontSize="16" Grid.Row="4" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="3" Margin="10"/>
 
-            <personalElement:BannerTextboxControl x:Name="DirectoryBTC" BannerText="Папка сохранения" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Grid.ColumnSpan="4" Width="258" NewHeight="35" NewFontSize="10"/>
-            <Button Style="{StaticResource DirectoryButton}" Tag="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Grid.Row="5" Grid.Column="4" Width="40" Height="40">
-                <Icon:PackIconMaterial Kind="Folder" Style="{StaticResource ButtonIcon}" Width="15" Height="15"/>
-            </Button>
+            <TextBlock Text="В каком формате&#x0a;сохранить отчет: " FontFamily="Tahoma" FontSize="21" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Grid.ColumnSpan="5"/>
+            <TextBlock Text="PDF" FontFamily="Tahoma" FontSize="18" Grid.Row="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5" Grid.ColumnSpan="2"/>
+            <TextBlock Text="docx" FontFamily="Tahoma" FontSize="18" Grid.Row="2" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="3" Margin="5"/>
 
-            <personalElement:BannerTextboxControl x:Name="FileNameBTC" BannerText="Название файла" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" Grid.ColumnSpan="4" Width="258" NewHeight="35" NewFontSize="10"/>
-
-            <Button x:Name="BT" Grid.Column="0" Width="210" Height="50" Content="Сформировать отчет" Grid.Row="9" Style="{StaticResource RoundedButton}" Grid.ColumnSpan="5"/>
-
-            <ToggleButton x:Name="CheckTB" Style="{StaticResource MaterialDesignSwitchToggleButton}" Grid.Row="4" Grid.Column="2" Width="70">
+            <ToggleButton x:Name="CheckTB" Style="{StaticResource MaterialDesignSwitchToggleButton}" Grid.Row="2" Grid.Column="2" Width="70">
                 <ToggleButton.Resources>
                     <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="Green" />
                 </ToggleButton.Resources>
                 <materialDesign:PackIcon Kind="File" />
             </ToggleButton>
+
+            <personalElement:BannerTextboxControl x:Name="DirectoryBTC" BannerText="Папка сохранения" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" Grid.ColumnSpan="4" Width="270" NewHeight="40" NewFontSize="18"/>
+            <personalElement:BannerTextboxControl x:Name="FileNameBTC" BannerText="Название" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" Grid.ColumnSpan="4" Width="270" NewHeight="40" NewFontSize="18"/>
+            <Button Style="{StaticResource DirectoryButton}" Tag="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" Click="OpenDirectory_Click" Margin="0" Grid.Row="4" Grid.Column="4" Width="40" Height="40">
+                <Icon:PackIconMaterial Kind="Folder" Style="{StaticResource ButtonIcon}" Width="20" Height="20"/>
+            </Button>
+            <Button x:Name="BT" Grid.Column="0" Width="240" Height="55" FontSize="18" Content="Сформировать отчет" Click="CreateFile_Click" Grid.Row="7" Style="{StaticResource RoundedButton}" Grid.ColumnSpan="5"/>
         </Grid>
 
         <ScrollViewer Grid.Column="1" Background="#FFBCF6DE" Margin="30 10" Grid.RowSpan="6">
@@ -94,16 +90,11 @@
                         <ColumnDefinition Width="100"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-
                     <TextBlock Text="Аналитика с помощью сервиса&#x0a;CafeHub" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="4" TextAlignment="Center"/>
-                    <TextBlock Text="Выбранные локации: " FontFamily="Tahoma" FontSize="12" Grid.Row="2" HorizontalAlignment="Right" />
-                    <TextBlock x:Name="LocationTB" Text="ул. Ленина, ул. Ворошилова, пр. Большевиков" FontFamily="Tahoma" FontSize="12" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" Grid.ColumnSpan="3" />
-                    <TextBlock Text="Выбранные категории: " FontFamily="Tahoma" FontSize="12" Grid.Row="3" HorizontalAlignment="Right"/>
-                    <TextBlock x:Name="CategoryTB" Text="Еда, Обстановка" FontFamily="Tahoma" FontSize="12" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Grid.ColumnSpan="3" />
-                    <TextBlock Text="Кол-во выбранных рекламаций: " FontFamily="Tahoma" FontSize="12" Grid.Row="4"/>
-                    <TextBlock x:Name="QuantityTB" Text="3151888" FontFamily="Tahoma" FontSize="12" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" />
-                    <TextBlock Text="Дата: " FontFamily="Tahoma" FontSize="12" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right"/>
-                    <TextBlock x:Name="DateTB" Text="12.12.2023" FontFamily="Tahoma" FontSize="12" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Left" />
+                    <TextBlock Text="Кол-во выбранных рекламаций: " FontFamily="Tahoma" FontSize="12" Grid.Row="2"/>
+                    <TextBlock x:Name="QuantityTB" FontFamily="Tahoma" FontSize="12" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" />
+                    <TextBlock Text="Дата: " FontFamily="Tahoma" FontSize="12" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right"/>
+                    <TextBlock x:Name="DateTB" FontFamily="Tahoma" FontSize="12" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" />
                 </Grid>
 
                 <TextBlock Text="График тональной вероятности" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="14" FontWeight="Bold" Grid.Row="1"/>
@@ -118,7 +109,7 @@
                 <TextBlock Text="Диаграмма частей речи по количеству" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="14" FontWeight="Bold" Grid.Row="7"/>
                 <LiveChart:CartesianChart x:Name="PartsSpeechChart" Series="{Binding SeriesCollection}" DisableAnimations="True" Margin="10" Width="550" Height="300" Grid.Row="8">
                     <LiveChart:CartesianChart.AxisX>
-                        <LiveChart:Axis Labels="{Binding Labels}" LabelFormatter="{Binding Formatter}">
+                        <LiveChart:Axis Labels="Сущ, Дет, Прил, Част, Mест, Предл, Гл, Числ, Нареч, Междом, Симв, Другое">
                             <LiveChart:Axis.Separator>
                                 <LiveChart:Separator Step="1"/>
                             </LiveChart:Axis.Separator>
@@ -146,22 +137,22 @@
                     <Line X1="20" Y1="32" X2="400" Y2="32" Stroke="Black" StrokeThickness="1" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                     <TextBlock Text="Сколько раз встречалось" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" FontWeight="Bold" Grid.Column="1"/>
 
-                    <TextBlock Text="ухй" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="1"/>
-                    <TextBlock Text="9712" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="1" Grid.Column="1"/>
-                    
-                    <TextBlock Text="лиза" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="2"/>
-                    <TextBlock Text="6215" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="2" Grid.Column="1"/>
-                    
-                    <TextBlock Text="лев" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="3"/>
-                    <TextBlock Text="5374" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="3" Grid.Column="1"/>
-                    
-                    <TextBlock Text="котик" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="4"/>
-                    <TextBlock Text="5098" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="4" Grid.Column="1"/>
-                    
-                    <TextBlock Text="чипсы" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="5"/>
-                    <TextBlock Text="1234" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="5" Grid.Column="1"/>
+                    <TextBlock x:Name="FirstWordTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="1"/>
+                    <TextBlock  x:Name="FirstValueTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="1" Grid.Column="1"/>
+
+                    <TextBlock x:Name="SecondWordTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="2"/>
+                    <TextBlock x:Name="SecondValueTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="2" Grid.Column="1"/>
+
+                    <TextBlock x:Name="ThirdWordTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="3"/>
+                    <TextBlock x:Name="ThirdValueTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="3" Grid.Column="1"/>
+
+                    <TextBlock x:Name="FourthWordTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="4"/>
+                    <TextBlock x:Name="FourthValueTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="4" Grid.Column="1"/>
+
+                    <TextBlock x:Name="FifthWordTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="5"/>
+                    <TextBlock x:Name="FifthValueTB" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Tahoma" FontSize="12" Grid.Row="5" Grid.Column="1"/>
                 </Grid>
-                
+
             </Grid>
         </ScrollViewer>
 

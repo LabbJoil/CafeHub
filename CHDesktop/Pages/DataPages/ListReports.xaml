@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1200"
+      d:DesignHeight="700" d:DesignWidth="1200"
       Title="ListReports" Loaded="ListReportsPage_Loaded">
 
     <Grid>
@@ -31,22 +31,9 @@
         <DataGrid Grid.Row="2" Grid.Column="1" x:Name="ReportsDataGrid" CellStyle="{DynamicResource DataGridCellStyle}" Style="{DynamicResource DataGridStyle}" RowStyle="{DynamicResource DataGridRowStyle}" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle}">
             <DataGrid.Columns>
 
-                <DataGridTemplateColumn x:Name="DialogColumn" Header="Диалог" IsReadOnly="True" Width="280">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Border Width="{Binding ActualWidth, ElementName=DialogColumn}">
-                                <TextBlock  VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding ShortDialog}"/>
-                                <Border.ToolTip>
-                                    <ToolTip Style="{StaticResource RoundedToolTipStyle}">
-                                        <TextBox Style="{StaticResource TextBoxToolTipStyle}" Text="{Binding Dialog}"/>
-                                    </ToolTip>
-                                </Border.ToolTip>
-                            </Border>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+               
 
-                <DataGridTemplateColumn x:Name="DateColumn" Header="Дата" IsReadOnly="True" Width="150">
+                <DataGridTemplateColumn x:Name="DateColumn" Header="Дата" IsReadOnly="True" Width="350">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Width="{Binding ActualWidth, ElementName=DateColumn}">
@@ -56,7 +43,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn x:Name="CountMessagesColumn" Header="Обработ. сообщения" IsReadOnly="True" Width="150">
+                <DataGridTemplateColumn x:Name="CountMessagesColumn" Header="Обработ. сообщения" IsReadOnly="True" Width="200">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Border Width="{Binding ActualWidth, ElementName=CountMessagesColumn}">

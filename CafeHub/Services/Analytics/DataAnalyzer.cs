@@ -8,7 +8,6 @@ public class DataAnalyzer
 {
     private readonly object DataAnalyzerLock = new();
     private readonly Queue<TextAnalysis> TextAnalysisQueue = new();
-    private int CountAnalizeMessages = 0;                                                       // не нужна
     private int CountAnalizeResults = 0;
     private int ProcessThread = 0;
 
@@ -44,8 +43,6 @@ public class DataAnalyzer
         while (TextAnalysisQueue.Count > 0)
         {
             TextAnalysis report = TextAnalysisQueue.Dequeue();
-            baseReport.AggregateLocationCafe[report.Location]++;
-            baseReport.AggregateСategoryComplaint[report.Сategory]++;
             MergerReports(baseReport.AggregatePartsSpeech, report.PartsSpeechMessage, noneMergeProperty, 0);
             MergerReports(baseReport.AverageTonality, report.TonalityMessage, noneMergeProperty, 0f);
             foreach (var entry in report.CommonWordsMessage)
@@ -90,7 +87,6 @@ public class DataAnalyzer
                 TextAnalysisQueue.Enqueue(reportMessage);
                 CountAnalizeResults++;
             }
-            CountAnalizeMessages++;
             ProcessThread--;
         }
     }

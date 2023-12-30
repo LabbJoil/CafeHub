@@ -6,7 +6,7 @@
         xmlns:personalElement ="clr-namespace:CHDesktop.PersonalElements"
         xmlns:Gif="http://wpfanimatedgif.codeplex.com"
         mc:Ignorable="d"
-        Title="CafeHub" Height="600" Width="1200" ResizeMode="CanMinimize" Loaded="MainWindow_Loaded" Closing="Window_Closing" Icon="/Assets/Icon/icon.png">
+        Title="CafeHub" Height="700" Width="1200" ResizeMode="CanMinimize" Loaded="MainWindow_Loaded" Closing="Window_Closing" Icon="/Assets/Icon/icon.png">
 
     <Grid Background="#FF1D132E">
         <Grid.ColumnDefinitions>
@@ -29,8 +29,6 @@
                     <Border Background="#FF4E40CF" BorderBrush="Gray" BorderThickness="1">
                         <StackPanel Margin="10">
                             <Button x:Name="ProfileB" Content="Профиль" Style="{StaticResource RoundedButton}" Click="OpenEditProfile"/>
-                            <Button x:Name="ReportsB" Content="Отчёты" Style="{StaticResource RoundedButton}" Click="OpenReports"/>
-                            <Button x:Name="TelegramB" Content="Рекламации" Style="{StaticResource RoundedButton}" Click="OpenComplaint"/>
                             <Button x:Name="LogInSignUpB" Content="Авторизация/&#x0a;Регистрация" Style="{StaticResource RoundedButton}" Height="60" Click="OpenAuthorization" />
                             <Button x:Name="SettingsB" Content="Настройки" Style="{StaticResource RoundedButton}" Click="OpenSettings"/>
                         </StackPanel>

@@ -6,7 +6,7 @@
       xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
       xmlns:PersonalElements="clr-namespace:CHDesktop.PersonalElements"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1200"
+      d:DesignHeight="700" d:DesignWidth="1200"
       Title="EditProfilePage">
 
     <Grid>
@@ -47,12 +47,9 @@
         <Button x:Name="ChangeButton" Content="Изменить" Grid.Column="3" Grid.Row="7" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="1" Click="ChangeB_Click"/>
         <Button x:Name="ChangePassButton" Content="Изменить пароль" Grid.Column="3" Grid.Row="8" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ChangePasswordB_Click"/>
         <Button x:Name="ListReviewsButton" Content="Рекламации" Grid.Column="2" Grid.Row="8" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ListReviewsB_Click"/>
-
         <Button x:Name="AddReviewButton" Content="Добавить рекламацию" Grid.Column="2" Grid.Row="7" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="1" Click="AddReviewB_Click"/>
         <Button x:Name="ListReportsButton" Content="Отчёты" Grid.Column="2" Grid.Row="7" Style="{StaticResource RoundedButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.ColumnSpan="1" Click="ListReportsB_Click"/>
-
         <Button x:Name="DeleteButton" Content="Удалить аккаунт" Grid.Column="3" Grid.Row="10" Style="{StaticResource RemoveButton}" Width="170" HorizontalAlignment="Center" VerticalAlignment="Center" Click="DeleteUserB_Click" Foreground="Black" FontSize="16" FontWeight="Bold"/>
-
-        <PersonalElements:RoundControl x:Name="PersonalIconRC" Grid.Column="1" ImageEnterButton ="/Assets/Backgrounds/Gray.png" ImageLeaveButton ="/Assets/Backgrounds/White.png" BorderThickness="0" Grid.Row="3" Width="300" Height="300" Grid.RowSpan="6" HorizontalAlignment="Center" Margin="0,0,10,0" LEImageOpacity="0.2" FontWeight="Bold" FontSize="30" Click="ChooseNewProfileIcon_Click"/>
+        <PersonalElements:RoundControl x:Name="PersonalIconRC" Grid.Column="1" ImageEnterButton = "/Assets/Backgrounds/White.png" ImageLeaveButton = "/Assets/Backgrounds/Gray.png" BorderThickness="0" Grid.Row="3" Width="300" Height="300" Grid.RowSpan="6" HorizontalAlignment="Center" Margin="0,0,10,0" LEImageOpacity="0.2" FontWeight="Bold" FontSize="30" Click="ChooseNewProfileIcon_Click"/>
     </Grid>
 </Page>

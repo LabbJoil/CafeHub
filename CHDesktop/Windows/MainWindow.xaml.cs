@@ -85,18 +85,6 @@ public partial class MainWindow : Window
         InteractionSliderButton(MenuSlider, MenuButton);
     }
 
-    private void OpenReports(object sender, RoutedEventArgs e)
-    {
-        PageFrame.Navigate(new ListReports());
-        InteractionSliderButton(MenuSlider, MenuButton);
-    }
-
-    private void OpenComplaint(object sender, RoutedEventArgs e)
-    {
-        PageFrame.Navigate(new ListReviewsAdmin());
-        InteractionSliderButton(MenuSlider, MenuButton);
-    }
-
     private void OpenAuthorization(object sender, RoutedEventArgs e)
     {
         PageFrame.Navigate(new AuthorizationPage());

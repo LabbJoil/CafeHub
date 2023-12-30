@@ -25,7 +25,21 @@ public class ReportHelper(ContextDB contextDB)
                 ?? throw new ExceptionHelper(new LoggingHelper(TypeMessage.Problem, DangerLevel.Wanted, "The report is missing")),
             AverageTonality = Database.Tonalitys.Where(tonality => tonality.IdReport == idReport).FirstOrDefault() ?? new(),
             AggregatePartsSpeech = Database.PartsSpeechs.Where(tonality => tonality.IdReport == idReport).FirstOrDefault() ?? new(),
-            AggregateCommonWords = [.. Database.CommonWords.Where(cw => cw.IdReport == idReport)]
+            AggregateCommonWords = [.. Database.CommonWords.Where(cw => cw.IdReport == idReport)],
+
+            AggregateLocationCafe = { 
+                { LocationCafe.KirpichnyLane8, Database.Complaints.Count(c1 => c1.Location == LocationCafe.KirpichnyLane8) },
+                { LocationCafe.NovoroshchinskayaStreet4, Database.Complaints.Count(c1 => c1.Location == LocationCafe.NovoroshchinskayaStreet4) },
+                { LocationCafe.FedorAbramovStreet16k1, Database.Complaints.Count(c1 => c1.Location == LocationCafe.FedorAbramovStreet16k1) },
+                { LocationCafe.KonstantinovskyProspekt23, Database.Complaints.Count(c1 => c1.Location == LocationCafe.KonstantinovskyProspekt23) },
+                { LocationCafe.KuznechnyLane3, Database.Complaints.Count(c1 => c1.Location == LocationCafe.KuznechnyLane3) },
+            },
+            
+            AggregateСategoryComplaint = { 
+                { СategoryComplaint.Staff, Database.Complaints.Count(c1 => c1.Сategory == СategoryComplaint.Staff) },
+                { СategoryComplaint.Food, Database.Complaints.Count(c1 => c1.Сategory == СategoryComplaint.Food) },
+                { СategoryComplaint.Situation, Database.Complaints.Count(c1 => c1.Сategory == СategoryComplaint.Situation) }
+            }
         };
         return analyticReport;
     }

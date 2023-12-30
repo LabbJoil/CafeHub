@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:PersonalElements="clr-namespace:CHDesktop.PersonalElements"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="1000"
+      d:DesignHeight="700" d:DesignWidth="1200"
       Title="SettingsPage">
 
     <Grid>

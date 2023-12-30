@@ -1,4 +1,5 @@
 ﻿
+using CHDesktop.Models.Domain;
 using iText.IO.Image;
 using iText.Kernel.Font;
 using iText.Kernel.Geom;
@@ -7,15 +8,14 @@ using iText.Kernel.Pdf.Canvas;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using CHDesktop.Models.Domain;
 
-namespace CHDesktop.Services.DocumentGenerators;
+namespace NADesktop.Services.DocumentGenerators;
 
 class PdfGenerator
 {
     private readonly PdfDocument PDFMainPoint;
     private readonly Document RootDocument;
-    private readonly PdfFont TextFont = PdfFontFactory.CreateFont("Tahoma.ttf", "CP1251");
+    PdfFont Font = PdfFontFactory.CreateFont("Tahoma.ttf", "CP1251");
 
     public PdfGenerator(string pathDocument)
     {
@@ -26,47 +26,28 @@ class PdfGenerator
 
     public void CreatePDF(string[] chartsName, Report mainInfo, List<CommonWord>? commonWords)
     {
-        CreateFirstPage(mainInfo, chartsName[0]);
-        CreateSecondPage(chartsName[1], chartsName[2]);
-        CreateThirdPage(commonWords);
+        PDFMainPoint.AddNewPage(PageSize.A4);
+        AddTextBlock("Аналитика с помощью сервиса\nNetwork Analysis", -200, 700, 16, true, TextAlignment.CENTER);
+        AddTextBlock($"Кол-во выбранных сообщений: {mainInfo?.CountMessages}", 15, 600, 12, false, TextAlignment.LEFT);
+        AddTextBlock($"Дата: {mainInfo?.CreateDate}", -480, 600, 12, false, TextAlignment.RIGHT);
+        AddTextBlock("График тональной вероятности", -200, 450, 14, true, TextAlignment.CENTER);
+        AddChartPNG(chartsName[0], 20, 100);
 
-        PDFMainPoint.Close();
-    }
-
-    private void CreateFirstPage(Report mainInfo, string themChart)
-    {
-        //var page = PDFMainPoint.AddNewPage(PageSize.A4);
-        //string login = (mainInfo?.Login?.Length > 20 ? $"{mainInfo.Login[^20]}..." : mainInfo?.Login) ?? "None";
-        //string dialog = (mainInfo?.Dialog?.Length > 20 ? $"{mainInfo.Dialog[^20]}..." : mainInfo?.Dialog) ?? "None";
-
-        //AddTextBlock("Аналитика с помощью сервиса\nNetwork Analysis", -200, 700, 16, true, TextAlignment.CENTER);
-        //AddTextBlock($"Социальная сеть для анализа: {mainInfo?.SocialNetwork ?? "None"}", 15, 660, 12, false, TextAlignment.LEFT);
-        //AddTextBlock($"Логин: {login}", -620, 660, 12, false, TextAlignment.RIGHT);
-        //AddTextBlock($"Выбранный чат для анализа: {dialog}", 15, 630, 12, false, TextAlignment.LEFT);
-        //AddTextBlock($"Кол-во выбранных сообщений: {mainInfo?.CountMessages}", 15, 600, 12, false, TextAlignment.LEFT);
-        //AddTextBlock($"Дата: {mainInfo?.CreateDate}", -620, 600, 12, false, TextAlignment.RIGHT);
-        //AddTextBlock("Диаграмма вероятности тематической принадлежности", -200, 450, 14, true, TextAlignment.CENTER);
-        //AddChartPNG(themChart, 100, 100);
-    }
-
-    private void CreateSecondPage(string tonalityChart, string PartsSpeech)
-    {
         RootDocument.Add(new AreaBreak());
-        AddTextBlock("График тональной вероятности", -200, 800, 14, true, TextAlignment.CENTER);
-        AddChartPNG(tonalityChart, 100, 450);
-        AddTextBlock("Диаграмма частей речи по количеству", -200, 400, 14, true, TextAlignment.CENTER);
-        AddChartPNG(PartsSpeech, 20, 50);
-    }
+        AddTextBlock("Диаграмма местоположений", -200, 800, 14, true, TextAlignment.CENTER);
+        AddChartPNG(chartsName[1], 100, 500);
+        AddTextBlock("Диаграмма категорий", -200, 450, 14, true, TextAlignment.CENTER);
+        AddChartPNG(chartsName[2], 20, 100);
 
-    private void CreateThirdPage(List<CommonWord>? commonWords)
-    {
         RootDocument.Add(new AreaBreak());
-        AddTextBlock("Топ-5 используемых слов", -200, 700, 14, true, TextAlignment.CENTER);
+        AddTextBlock("Диаграмма частей речи по количеству", -200, 800, 14, true, TextAlignment.CENTER);
+        AddChartPNG(chartsName[3], 20, 450);
+        AddTextBlock("Топ-5 используемых слов", -200, 400, 14, true, TextAlignment.CENTER);
 
         Table table = new(2, false);
-        table.SetFont(TextFont);
         table.SetHorizontalAlignment(HorizontalAlignment.CENTER);
         table.SetVerticalAlignment(VerticalAlignment.MIDDLE);
+        table.SetFont(Font);
 
         for (int row = 0; row < commonWords?.Count; row++)
         {
@@ -76,14 +57,31 @@ class PdfGenerator
             table.AddCell(cellRight);
         }
 
-        table.SetFixedPosition(200, 550, 200);
+        table.SetFixedPosition(200, 260, 200);
         RootDocument.Add(table);
+
+        PDFMainPoint.Close();
+    }
+
+    private void CreateFirstPage(Report mainInfo, string themChart)
+    {
+        
+    }
+
+    private void CreateSecondPage(string tonalityChart, string PartsSpeech)
+    {
+       
+    }
+
+    private void CreateThirdPage(List<CommonWord>? commonWords)
+    {
+        
     }
 
     private void AddTextBlock(string text, float xPosition, float yPosition, float fontSize, bool isBold = false, TextAlignment textAlignment = TextAlignment.JUSTIFIED)
     {
         Paragraph paragraph = new Paragraph(text)
-            .SetFont(TextFont)
+            .SetFont(Font)
             .SetFontSize(fontSize).SetKeepTogether(true);
         if (isBold)
             paragraph.SetBold();
@@ -95,7 +93,7 @@ class PdfGenerator
     private void AddChartPNG(string nameChart, int x, int y)
     {
         PdfCanvas canvasImage = new(PDFMainPoint.GetLastPage());
-        string tempImagePath = $"{nameChart}.png";
+        string tempImagePath = $"{nameChart}";
         var image = ImageDataFactory.Create(tempImagePath);
         canvasImage.AddImageAt(image, x, y, false);
     }

@@ -1,6 +1,0 @@
-@CofeHub_HostAddress = http://localhost:5257
-
-GET {{CofeHub_HostAddress}}/user/userInfo
-Accept: application/json
-
-###

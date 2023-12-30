@@ -11,6 +11,6 @@ public class ReportSummary
     public Tonality AverageTonality { get; set; } = new();
     public PartsSpeech AggregatePartsSpeech { get; set; } = new();
     public List<CommonWord> AggregateCommonWords { get; set; } = [];
-    public Dictionary<LocationCafe, int> AggregateLocationCafe = [];
-    public Dictionary<СategoryComplaint, int> AggregateСategoryComplaint = [];
+    public Dictionary<LocationCafe, int> AggregateLocationCafe { get; set; } = new();
+    public Dictionary<СategoryComplaint, int> AggregateСategoryComplaint { get; set; } = new();
 }

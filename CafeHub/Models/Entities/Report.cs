@@ -15,8 +15,6 @@ public class Report
     [Required]
     public string? Name { get; set; }
     [Required]
-    public LocationCafe Location { get; set; }
-    [Required]
     public int CountMessages { get; set; }
     [Required]
     public DateTime? CreateDate { get; set; }

@@ -8,7 +8,7 @@
       xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
       xmlns:PersonalElements="clr-namespace:CHDesktop.PersonalElements"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="1200"
+      d:DesignHeight="700" d:DesignWidth="1200"
       Title="ListReviews" Loaded="Page_Loaded">
 
     <Grid>

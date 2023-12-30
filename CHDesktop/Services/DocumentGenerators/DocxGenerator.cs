@@ -2,6 +2,7 @@
 using NPOI.OpenXmlFormats.Wordprocessing;
 using NPOI.XWPF.UserModel;
 using System.IO;
+using System.Windows;
 
 namespace CHDesktop.Services.DocumentGenerators;
 
@@ -12,54 +13,59 @@ internal class DocxGenerator(string pathDocument)
 
     public void CreateWordDocument(string[] chartsName, Report report, List<CommonWord>? commonWords)
     {
-        DefaultParams();
-        CreateFirstPage(report, chartsName[0]);
-        CreateSecondPage(chartsName[1], chartsName[2]);
-        CreateThirdPage(commonWords);
-        using FileStream sw = File.Create(PathDocument);
-        Document.Write(sw);
-    }
-
-    private void CreateFirstPage(Report report, string themChart)
-    {
-        //string login = (report?.Login?.Length > 20 ? $"{report.Login[^20]}..." : report?.Login) ?? "None";
-        //string dialog = (report?.Dialog?.Length > 20 ? $"{report.Dialog[^20]}..." : report?.Dialog) ?? "None";
-        //AddTextBlock("Аналитика с помощью сервиса", 16, 2700, 1000, true);
-        //AddTextBlock("Network Analysis", 16, 3600, 0, true);
-        //AddTextBlock($"Социальная сеть для анализа: {report?.SocialNetwork ?? "None"} \t\t\t\t\t Логин: {login}", 12, 20, 1000);
-        //AddTextBlock($"Выбранный чат для анализа: {dialog}", 12, 20, 0);
-        AddTextBlock($"Кол-во выбранных сообщений: {report?.CountMessages} \t\t\t\t\t Дата: {report?.CreateDate}", 12, 20, 0);
-
-        AddTextBlock("Диаграмма вероятности тематической принадлежности", 14, 1500, 2000, true);
-        AddChartPNG(themChart, 1400, 700);
-    }
-
-    private void CreateSecondPage(string tonalityChart, string PartsSpeech)
-    {
-        AddTextBlock("График тональной вероятности", 14, 3300, 2300, true);
-        AddChartPNG(tonalityChart, 1400, 700);
-        AddTextBlock("Диаграмма частей речи по количеству", 14, 3000, 2000, true);
-        AddChartPNG(PartsSpeech, 1400, 700);
-    }
-
-    private void CreateThirdPage(List<CommonWord>? commonWords)
-    {
-        AddTextBlock("Топ-5 используемых слов", 16, 3600, 0, true);
-        int numRows = 5;
-        int numCols = 2;
-
-        XWPFTable table = Document.CreateTable(numRows, numCols);
-
-        for (int row = 0; row < commonWords?.Count; row++)
+        FileStream? sw = null;
+        try
         {
-            XWPFTableCell cell = table.GetRow(row).GetCell(0);
-            cell.SetText(commonWords?[row].Word ?? "");
-            cell = table.GetRow(row).GetCell(1);
-            cell.SetText(commonWords?[row].NumberRepetitions.ToString() ?? "");
-        }
+            AddTextBlock("Аналитика с помощью сервиса", 16, 2700, 1000, true);
+            AddTextBlock("Cafe Hub", 16, 3600, 0, true);
+            AddTextBlock($"Кол-во выбранных сообщений: {report?.CountMessages} \t\t\t\t\t Дата: {report?.CreateDate}", 12, 20, 0);
 
-        // Добавляем созданную таблицу в параграф
-        //paragraph.(table);
+            AddTextBlock("График тональной вероятности", 14, 1500, 2000, true);
+            AddChartPNG(chartsName[0], 1400, 700);
+
+            AddTextBlock("Диаграмма местоположений", 14, 3300, 2300, true);
+            AddChartPNG(chartsName[1], 1400, 700);
+            AddTextBlock("Диаграмма категорий", 14, 3000, 2000, true);
+            AddChartPNG(chartsName[2], 1400, 700);
+            AddTextBlock("Диаграмма частей речи по количеству", 14, 3000, 2000, true);
+            AddChartPNG(chartsName[3], 1400, 700);
+
+            AddTextBlock("Топ-5 используемых слов", 16, 3600, 0, true);
+            int numRows = 5;
+            int numCols = 2;
+
+            XWPFTable table = Document.CreateTable(numRows, numCols);
+            table.Width = 3000;
+            //table.SetCellMargins(0, 0, 1000, 0);
+
+            for (int row = 0; row < commonWords?.Count; row++)
+            {
+                XWPFTableCell cell = table.GetRow(row).GetCell(0);
+                XWPFParagraph para = cell.AddParagraph();
+                XWPFRun run = para.CreateRun();
+                run.FontFamily = "Tahoma";
+                run.SetText(commonWords?[row].Word);
+                table.GetRow(row).Height = (50);
+                para.Alignment = ParagraphAlignment.CENTER;
+                cell.SetVerticalAlignment(XWPFTableCell.XWPFVertAlign.TOP);
+
+                cell = table.GetRow(row).GetCell(1);
+                para = cell.AddParagraph();
+                run = para.CreateRun();
+                run.FontFamily = "Tahoma";
+                run.SetText(commonWords?[row].NumberRepetitions.ToString());
+                table.GetRow(row).Height = (50);
+                para.Alignment = ParagraphAlignment.CENTER;
+                cell.SetVerticalAlignment(XWPFTableCell.XWPFVertAlign.TOP);
+            }
+            sw = File.Create(PathDocument);
+            Document.Write(sw);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+        sw?.Close();
     }
 
     private void AddChartPNG(string nameChart, int xPosition, int yPosition)
@@ -69,8 +75,8 @@ internal class DocxGenerator(string pathDocument)
         paragraph.SpacingBefore = yPosition;
 
         XWPFRun runPNG = paragraph.CreateRun();
-        using FileStream img = new($"{nameChart}.png", FileMode.Open, FileAccess.Read);
-        runPNG.AddPicture(img, (int)NPOI.XWPF.UserModel.PictureType.PNG, nameChart, 450 * 10857, 252 * 12857);
+        using FileStream img = new($"{nameChart}", FileMode.Open, FileAccess.Read);
+        runPNG.AddPicture(img, (int)PictureType.PNG, nameChart, 450 * 10857, 252 * 12857);
     }
 
     private void AddTextBlock(string text, float fontSize, int xPosition, int yPosition, bool isBold = false)
@@ -79,7 +85,6 @@ internal class DocxGenerator(string pathDocument)
         paragraph.IndentationLeft = xPosition;
         paragraph.SpacingBefore = yPosition;
         paragraph.SpacingAfter = 0;
-
 
         XWPFRun run = paragraph.CreateRun();
         run.SetText(text);
