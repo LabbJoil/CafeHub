@@ -3,49 +3,11 @@
 **Система отчетности CafeHub** - это платформа, предназначенная для управления и анализа жалоб пользователей, предоставляя администраторам подробные отчеты. Эта система включает в себя компоненты для создания отчетов, аналитики и фоновой обработки.
 
 ## Содержание
-
-- [Начало работы](#getting-started)
 - [Компоненты](#components)
   - [ReportController](#reportcontroller)
   - [BackgroundAnalyticsProcessor](#backgroundanalyticsprocessor)
   - [TextAnalyzer](#textanalyzer)
   - [DataAnalyzer](#dataanalyzer)
-- [Использование](#usage)
-- [Содействие](#contributing)
-- [Лицензия](#license)
-
-## Начало работы
-
-Чтобы начать работу с системой отчетности CafeHub, следуйте инструкциям ниже.
-
-### Предварительные требования
-
-Убедитесь, что у вас установлены следующие компоненты:
-
-- .NET Core SDK
-- Entity Framework Core
-- Microsoft.AspNetCore
-
-### Установка
-
-1. Клонируйте репозиторий:
-
-   ```bash
-   git clone https://github.com/yourusername/CafeHubReportingSystem.git
-   ```
-
-2. Перейдите в каталог проекта:
-
-   ```bash
-   cd CafeHubReportingSystem
-   ```
-
-3. Соберите и запустите приложение:
-
-   ```bash
-   dotnet build
-   dotnet run
-   ```
 
 ## Компоненты
 
